@@ -1,0 +1,8 @@
+.header {
+    padding: 10px 50px;
+  }
+  
+  .header__h1 {
+    color: indigo;
+    text-align: center;
+  }
