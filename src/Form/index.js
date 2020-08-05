@@ -1,7 +1,6 @@
 import React from "react"
 import "./style.css"
 
-
 const Form = ({ selectDescription, inputDescription, buttonDescription, outcomeDescription }) => (
     <form className="form">
         <p className="form__paragraph">
