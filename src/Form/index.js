@@ -1,38 +1,63 @@
-import React from "react"
-import "./style.css"
+import React from 'react'
+import './style.css'
+import { currencies } from "../currencies";
+import { Result } from "../Result";
 
-const Form = ({ selectDescription, inputDescription, buttonDescription, outcomeDescription }) => (
-    <form className="form">
-        <p className="form__paragraph">
-        <p>
-      <label> {selectDescription}<select name="Waluta" class="js-currency form__select">
-          <option value="USD">Dolar</option>
-          <option value="EUR">Euro</option>
-        </select></label></p>
-        <label>
-            {inputDescription}
-            <input
-                className="js-amount form__select"
-                value="500"
-                type="number"
-                step="0.01"
-                min="f0.01"
-                max="1000000"
-                placeholder="500"
-                required
-            />
-        </label>
-    </p>
+export const Form =
+    ({ result, calculateResult, selectDescription, inputDescription, buttonDescription, outcomeDescription }) => {
 
-        <button className="form__button">
-            {buttonDescription}
-        </button>
+        const [currency, setCurrency] = useState(currencies[0].short);
+        const [amount, setAmount] = useState("");
 
-        <p>{outcomeDescription}
-            <strong className="js-outcome">N/D</strong></p>
+        const onSubmit = (event) => {
+            event.preventDefault();
+            calculateResult(currency, amount);
+        }
+        return (
+            <form className="form" onSubmit={onSubmit}>
+                <p className="form__paragraph">
+                    <p>
+                        <label> {selectDescription}
+                            <select
+                                name="Waluta"
+                                class="form__select"
+                                onChange={({ target }) => setCurrency(target.value)}
+                            >
+                                {currencies.map((currency => (
+                                    <option
+                                        key={currency.short}
+                                        value={currency.short}
+                                    >
+                                        {currency.name}
+                                    </option>
+                                )))}
+                            </select></label></p>
+                    <label>
+                        {inputDescription}
+                        <input
+                            className="form__select"
+                            value={amount}
+                            onChange={({ target }) => setAmount(target.value)}
+                            type="number"
+                            step="0.01"
+                            min="f0.01"
+                            max="1000000"
+                            placeholder="Podaj kwotę w złotych"
+                            required
+                        />
+                    </label>
+                </p>
+
+                <button className="form__button">
+                    {buttonDescription}
+                </button>
+
+                <p>{outcomeDescription}
+                    <strong>
+                        <Result result={result}/>
+                        </strong></p>
             </form>
-        
-        
-);
 
-export default Form;
+
+        );
+    }
